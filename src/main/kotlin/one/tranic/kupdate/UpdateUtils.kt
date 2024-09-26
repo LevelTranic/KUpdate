@@ -18,7 +18,9 @@ object UpdateUtils {
             val remotePart = vRemSeg.getOrElse(i) { "0" }
 
             val cmpResult = when {
-                localPart.matches(Regex("\\d+")) && remotePart.matches(Regex("\\d+")) -> localPart.toInt().compareTo(remotePart.toInt())
+                localPart.matches(Regex("\\d+")) && remotePart.matches(Regex("\\d+")) -> localPart.toInt()
+                    .compareTo(remotePart.toInt())
+
                 localPart.matches(Regex("\\d+")) -> 1
                 remotePart.matches(Regex("\\d+")) -> -1
                 else -> localPart.compareTo(remotePart, ignoreCase = true)

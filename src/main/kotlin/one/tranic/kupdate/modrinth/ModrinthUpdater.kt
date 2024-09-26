@@ -8,7 +8,7 @@ import one.tranic.kupdate.Updater
 import one.tranic.kupdate.Entry
 
 class ModrinthUpdater: Updater {
-    val baseUrl = "https://api.modrinth.com/v2/"
+    private val baseUrl = "https://api.modrinth.com/v2/"
     private val client = OkHttpClient()
 
     private fun getVersions(slug: String): List<Version>? {
