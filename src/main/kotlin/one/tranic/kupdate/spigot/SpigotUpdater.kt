@@ -6,10 +6,10 @@ import one.tranic.kupdate.Entry
 import one.tranic.kupdate.UpdateUtils
 import one.tranic.kupdate.Updater
 
-class SpigotUpdater : Updater {
+class SpigotUpdater(private val resourceId: String, private val localVersion: String) : Updater {
     private val client = OkHttpClient()
 
-    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String> {
+    override fun getUpdate(): Entry<Int, String> {
         val request = Request.Builder()
             .url("https://api.spigotmc.org/legacy/update.php?resource=$resourceId")
             .addHeader(
@@ -22,9 +22,5 @@ class SpigotUpdater : Updater {
             if (!it.isSuccessful) return@use Entry(-9999, it.body!!.string())
             Entry(UpdateUtils.cmpVer(localVersion, it.body!!.string()), "")
         }
-    }
-
-    override fun updater(resourceId: String) {
-        TODO("Not yet implemented")
     }
 }

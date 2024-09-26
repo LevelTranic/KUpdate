@@ -25,12 +25,14 @@ interface Updater {
      *         If an error occurs during the check, the first parameter will be -9999, and the second
      *           parameter will contain the error message.
      */
-    fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String>?
+    fun getUpdate(): Entry<Int, String>?
 
     /**
      * Initiates the update process for the specified resource.
      *
      * @param resourceId The unique identifier of the resource to be updated.
      */
-    fun updater(resourceId: String)
+    fun updater() {
+        TODO("Not yet implemented")
+    }
 }

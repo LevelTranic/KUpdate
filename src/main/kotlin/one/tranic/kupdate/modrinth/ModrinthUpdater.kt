@@ -7,7 +7,7 @@ import one.tranic.kupdate.Entry
 import one.tranic.kupdate.UpdateUtils
 import one.tranic.kupdate.Updater
 
-class ModrinthUpdater : Updater {
+class ModrinthUpdater(private val resourceId: String, private val localVersion: String) : Updater {
     private val baseUrl = "https://api.modrinth.com/v2/"
     private val client = OkHttpClient()
 
@@ -26,14 +26,10 @@ class ModrinthUpdater : Updater {
         }
     }
 
-    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String> {
+    override fun getUpdate(): Entry<Int, String> {
         val vet = getVersions(resourceId)
         if (vet.a == null) return Entry(0, vet.b!!)
         return Entry(UpdateUtils.cmpVer(localVersion, vet.a.first().versionNumber), "")
-    }
-
-    override fun updater(resourceId: String) {
-        TODO("Not yet implemented")
     }
 
 }

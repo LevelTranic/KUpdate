@@ -7,11 +7,11 @@ import one.tranic.kupdate.Entry
 import one.tranic.kupdate.UpdateUtils
 import one.tranic.kupdate.Updater
 
-class HangarUpdater : Updater {
+class HangarUpdater(private val resourceId: String, private val localVersion: String) : Updater {
     private val baseUrl = "https://hangar.papermc.io/api/v1"
     private val client = OkHttpClient()
 
-    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String>? {
+    override fun getUpdate(): Entry<Int, String> {
         val request = Request.Builder()
             .url("$baseUrl/projects/$resourceId/versions")
             .addHeader(
@@ -31,9 +31,5 @@ class HangarUpdater : Updater {
         } else {
             Entry(UpdateUtils.cmpVer(localVersion, (resp as CombinedResponse).result.first().name), "")
         }
-    }
-
-    override fun updater(resourceId: String) {
-        TODO("Not yet implemented")
     }
 }
