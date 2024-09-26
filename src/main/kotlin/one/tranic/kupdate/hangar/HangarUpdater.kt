@@ -1,4 +1,4 @@
-package one.tranic.kupdate.modrinth
+package one.tranic.kupdate.hangar
 
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -7,32 +7,29 @@ import one.tranic.kupdate.Entry
 import one.tranic.kupdate.UpdateUtils
 import one.tranic.kupdate.Updater
 
-class ModrinthUpdater : Updater {
-    private val baseUrl = "https://api.modrinth.com/v2/"
+class HangarUpdater : Updater {
+    private val baseUrl = "https://hangar.papermc.io/api/v1"
     private val client = OkHttpClient()
 
-    private fun getVersions(slug: String): List<Version>? {
+    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String>? {
         val request = Request.Builder()
-            .url("$baseUrl/project/$slug/version")
+            .url("$baseUrl/projects/$resourceId/versions")
             .addHeader(
                 "User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
             )
+            .addHeader("Accept", "application/json")
             .build()
 
-        return client.newCall(request).execute().use {
+        val resp = client.newCall(request).execute().use {
             if (!it.isSuccessful) return@use null
-            Json.decodeFromString<List<Version>>(it.body!!.string())
-        }
-    }
+            Json.decodeFromString<CombinedResponse>(it.body!!.string())
+        } ?: return null
 
-    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String>? {
-        val versions = getVersions(resourceId) ?: return null
-        return Entry(UpdateUtils.cmpVer(localVersion, versions.first().versionNumber), "")
+        return Entry(UpdateUtils.cmpVer(localVersion, resp.result.first().name), "")
     }
 
     override fun updater(resourceId: String) {
         TODO("Not yet implemented")
     }
-
 }

@@ -3,10 +3,10 @@
 ## Support
 - Modrinth
 - Spigot
+- Paper Hangar
 
 ## Todo
 - CurseForge
-- Paper Hangar
 - Github
 - Gitlab
 
