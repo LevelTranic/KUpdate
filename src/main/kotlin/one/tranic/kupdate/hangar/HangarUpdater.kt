@@ -22,11 +22,15 @@ class HangarUpdater : Updater {
             .build()
 
         val resp = client.newCall(request).execute().use {
-            if (!it.isSuccessful) return@use null
+            if (!it.isSuccessful) return@use it.body!!.string()
             Json.decodeFromString<CombinedResponse>(it.body!!.string())
-        } ?: return null
+        }
 
-        return Entry(UpdateUtils.cmpVer(localVersion, resp.result.first().name), "")
+        return if (resp is String) {
+            Entry(-9999, resp)
+        } else {
+            Entry(UpdateUtils.cmpVer(localVersion, (resp as CombinedResponse).result.first().name), "")
+        }
     }
 
     override fun updater(resourceId: String) {

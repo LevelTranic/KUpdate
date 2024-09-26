@@ -19,12 +19,12 @@ class SpigotUpdater : Updater {
             .build()
 
         return client.newCall(request).execute().use {
-            if (!it.isSuccessful) return@use Entry(-1, it.body!!.string())
+            if (!it.isSuccessful) return@use Entry(-9999, it.body!!.string())
             Entry(UpdateUtils.cmpVer(localVersion, it.body!!.string()), "")
         }
     }
 
     override fun updater(resourceId: String) {
-
+        TODO("Not yet implemented")
     }
 }

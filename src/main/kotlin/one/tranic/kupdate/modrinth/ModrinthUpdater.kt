@@ -11,7 +11,7 @@ class ModrinthUpdater : Updater {
     private val baseUrl = "https://api.modrinth.com/v2/"
     private val client = OkHttpClient()
 
-    private fun getVersions(slug: String): List<Version>? {
+    private fun getVersions(slug: String): Entry<List<Version>?, String?> {
         val request = Request.Builder()
             .url("$baseUrl/project/$slug/version")
             .addHeader(
@@ -21,14 +21,15 @@ class ModrinthUpdater : Updater {
             .build()
 
         return client.newCall(request).execute().use {
-            if (!it.isSuccessful) return@use null
-            Json.decodeFromString<List<Version>>(it.body!!.string())
+            if (!it.isSuccessful) return@use Entry(null, it.body!!.string())
+            Entry(Json.decodeFromString<List<Version>>(it.body!!.string()), null)
         }
     }
 
-    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String>? {
-        val versions = getVersions(resourceId) ?: return null
-        return Entry(UpdateUtils.cmpVer(localVersion, versions.first().versionNumber), "")
+    override fun getUpdate(resourceId: String, localVersion: String): Entry<Int, String> {
+        val vet = getVersions(resourceId)
+        if (vet.a == null) return Entry(0, vet.b!!)
+        return Entry(UpdateUtils.cmpVer(localVersion, vet.a.first().versionNumber), "")
     }
 
     override fun updater(resourceId: String) {
