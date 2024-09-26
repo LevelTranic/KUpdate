@@ -9,8 +9,6 @@ interface Updater {
     /**
      * Retrieves the update information for a specified resource.
      *
-     * @param resourceId The unique identifier of the resource to check for updates.
-     * @param localVersion The current version of the resource installed locally.
      * @return An `Entry` containing the update version as an `Int` and an error message as a `String`.
      *
      *         If the local version is equal to the remote version, the first parameter will be 0,
@@ -29,8 +27,6 @@ interface Updater {
 
     /**
      * Initiates the update process for the specified resource.
-     *
-     * @param resourceId The unique identifier of the resource to be updated.
      */
     fun updater() {
         TODO("Not yet implemented")
