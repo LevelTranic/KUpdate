@@ -65,7 +65,7 @@ publishing {
                     name.set("TranicSoft Studio")
                     url.set("https://tranic.one")
                 }
-                description.set("ScorpioBridge API")
+                description.set("KUpdate API")
                 inceptionYear.set("2024")
                 url.set("https://github.com/LevelTranic/KUpdate")
                 licenses {
