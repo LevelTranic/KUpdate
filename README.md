@@ -66,3 +66,6 @@ repository:
 dependency:
   - one.tranic:kupdate:1.0.0
 ```
+
+## Links
+- [Javadoc](https://javadoc.tranic.one/kupdate)
